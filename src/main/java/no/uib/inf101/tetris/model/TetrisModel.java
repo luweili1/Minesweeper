@@ -12,6 +12,7 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
 
     private TetrisBoard board;
     private TetrominoFactory tetrominoFactory;
+	private GameState gameState;
 
     private Tetromino fallingPiece;
 
@@ -19,7 +20,27 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
         this.board = board;
         this.tetrominoFactory = tetrominoFactory;
         this.fallingPiece = tetrominoFactory.getNext().shiftedToTopCenterOf(board);
+
+		this.gameState = GameState.ACTIVE_GAME;
     }
+
+	@Override
+	public void dropTetromino() {
+		while (moveTetromino(1, 0)) {
+		}
+		
+		glueTetromino(fallingPiece);
+		fallingPiece = tetrominoFactory.getNext().shiftedToTopCenterOf(board);
+		if (!legalMove(fallingPiece)) {
+			gameState = GameState.GAME_OVER;
+		}
+	}
+
+	private void glueTetromino(Tetromino piece) {
+		for (GridCell<Character> cell : piece) {
+			board.set(cell.pos(), cell.value());
+		}
+	}
 
 	@Override
 	public boolean rotateTetromino() {
@@ -66,5 +87,10 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
     public Iterable<GridCell<Character>> getFallingPiece() {
         return fallingPiece;
     }
+
+	@Override
+	public GameState getGameState() {
+		return gameState;
+	}
     
 }

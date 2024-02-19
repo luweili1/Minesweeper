@@ -10,4 +10,6 @@ public interface ColorTheme {
 
     public Color getBackgroundColor();
 
+	public Color getPopUpColor();
+
 }
