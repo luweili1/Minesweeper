@@ -32,6 +32,18 @@ public class Tetromino implements Iterable<GridCell<Character>> {
         return new Tetromino(symbol, shape, newPos);
     }
 
+	public Tetromino rotate() {
+		boolean[][] newShape = new boolean[this.shape.length][this.shape[0].length];
+		for (int row = 0; row < this.shape.length; row++) {
+			for (int col = 0; col < this.shape[0].length; col++) {
+				int newRow = col;
+                int newCol = shape[0].length - 1 - row;
+				newShape[row][col] = this.shape[newRow][newCol];
+			}
+		}
+		return new Tetromino(symbol, newShape, pos);
+	}
+
     static Tetromino newTetromino(char sym) {
         boolean[][] shape;
         switch (sym) {

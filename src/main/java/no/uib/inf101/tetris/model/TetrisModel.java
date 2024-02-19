@@ -22,6 +22,16 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
     }
 
 	@Override
+	public boolean rotateTetromino() {
+		Tetromino candidate = fallingPiece.rotate();
+		if (legalMove(candidate)) {
+			fallingPiece = candidate;
+			return true;
+		}
+		return false;
+	}
+
+	@Override
 	public boolean moveTetromino(int deltaRow, int deltaCol) {
 		Tetromino candidate = fallingPiece.shiftedBy(deltaRow, deltaCol);
 		if (legalMove(candidate)) {
@@ -56,7 +66,5 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
     public Iterable<GridCell<Character>> getFallingPiece() {
         return fallingPiece;
     }
-
-	
     
 }

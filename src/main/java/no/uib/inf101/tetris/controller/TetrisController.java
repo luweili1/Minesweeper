@@ -29,6 +29,9 @@ public class TetrisController implements KeyListener {
         else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             model.moveTetromino(1, 0);
         }
+		else if (e.getKeyCode() == KeyEvent.VK_UP) {
+            model.rotateTetromino();
+        }
         view.repaint();
 	}
 
