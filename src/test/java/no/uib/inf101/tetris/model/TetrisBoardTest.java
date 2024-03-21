@@ -23,4 +23,26 @@ public class TetrisBoardTest {
         assertEquals(expected, board.prettyString());
     }
 
+    @Test
+    public void testRemoveFullRows() {
+        // Tester at fulle rader fjernes i brettet:
+        // -T
+        // TT
+        // LT
+        // L-
+        // LL
+
+        TetrisBoard board = new TetrisBoard(5, 2);
+        board.set(new CellPosition(0, 1), 'T');
+        board.set(new CellPosition(1, 0), 'T');
+        board.set(new CellPosition(1, 1), 'T');
+        board.set(new CellPosition(2, 1), 'T');
+        board.set(new CellPosition(4, 0), 'L');
+        board.set(new CellPosition(4, 1), 'L');
+        board.set(new CellPosition(3, 0), 'L');
+        board.set(new CellPosition(2, 0), 'L');
+
+        assertEquals(3, board.clearRows());
+    }
+
 }

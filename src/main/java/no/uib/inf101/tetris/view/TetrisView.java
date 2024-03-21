@@ -1,8 +1,6 @@
 package no.uib.inf101.tetris.view;
 
-import javax.net.ssl.HostnameVerifier;
 import javax.swing.JPanel;
-import javax.swing.text.Highlighter;
 
 import no.uib.inf101.grid.CellPosition;
 import no.uib.inf101.grid.GridCell;

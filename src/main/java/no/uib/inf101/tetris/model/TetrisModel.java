@@ -1,6 +1,5 @@
 package no.uib.inf101.tetris.model;
 
-import no.uib.inf101.grid.CellPosition;
 import no.uib.inf101.grid.GridCell;
 import no.uib.inf101.grid.GridDimension;
 import no.uib.inf101.tetris.controller.ControllableTetrisModel;
@@ -25,7 +24,7 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
     }
 
 	@Override
-	public void dropTetromino() {
+	public void dropFallingPiece() {
 		while (moveTetromino(1, 0)) {
 		}
 		
@@ -40,10 +39,11 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
 		for (GridCell<Character> cell : piece) {
 			board.set(cell.pos(), cell.value());
 		}
+		board.clearRows();
 	}
 
 	@Override
-	public boolean rotateTetromino() {
+	public boolean rotateFallingPiece() {
 		Tetromino candidate = fallingPiece.rotate();
 		if (legalMove(candidate)) {
 			fallingPiece = candidate;
@@ -91,6 +91,22 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
 	@Override
 	public GameState getGameState() {
 		return gameState;
+	}
+
+	@Override
+	public void clockTick() {
+		if (!this.moveTetromino(1,0)) {
+            glueTetromino(fallingPiece);
+			fallingPiece = tetrominoFactory.getNext().shiftedToTopCenterOf(board);
+			if (!legalMove(fallingPiece)) {
+				gameState = GameState.GAME_OVER;
+			}
+        }
+	}
+
+	@Override
+	public int dropRate() {
+		return 1000;
 	}
     
 }
