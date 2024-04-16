@@ -17,4 +17,17 @@ public class MineCell {
     public boolean getHidden() {
         return this.hidden;
     }
+
+    @Override
+    public String toString() {
+        if (!hidden) {
+            if (value == -1) {
+                return "X";
+            } else {
+                return Integer.toString(value);
+            }
+        } else {
+            return "-";
+        }
+    }
 }

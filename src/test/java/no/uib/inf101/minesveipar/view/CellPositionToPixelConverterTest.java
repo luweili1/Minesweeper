@@ -1,4 +1,4 @@
-package no.uib.inf101.tetris.view;
+package no.uib.inf101.minesveipar.view;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import no.uib.inf101.grid.CellPosition;
 import no.uib.inf101.grid.GridDimension;
 import no.uib.inf101.minesveipar.model.Board;
-import no.uib.inf101.minesveipar.view.CellPositionToPixelConverter;
 
 public class CellPositionToPixelConverterTest {
 

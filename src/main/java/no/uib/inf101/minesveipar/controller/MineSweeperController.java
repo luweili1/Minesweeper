@@ -25,11 +25,13 @@ public class MineSweeperController implements java.awt.event.MouseListener {
         pos = converter.getCellforPixel(pos);
 
         if (e.getButton() == MouseEvent.BUTTON1) {
+            System.out.println("Left click at: " + pos);
             this.model.uncoverCell(pos);
             this.view.repaint();
         }
 
         if (e.getButton() == MouseEvent.BUTTON3) {
+            System.out.println("Right click at: " + pos);
             this.model.flagMine(pos);
             this.view.repaint();
         }

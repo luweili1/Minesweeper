@@ -190,7 +190,7 @@ public class SveiparModel implements ViewableMineSveiparModel, ControllableMineS
         }
     }
 
-    private boolean isHidden(CellPosition pos) {
+    boolean isHidden(CellPosition pos) {
         boolean value = this.board.get(pos).getHidden();
         if (value == true) {
             return true;
@@ -209,7 +209,6 @@ public class SveiparModel implements ViewableMineSveiparModel, ControllableMineS
                 }
 
             } else {
-                // fÃ¥tt hjelp a stack overflow her
                 for (Iterator<GridCell<Integer>> it = this.flaggedValues.iterator(); it.hasNext();) {
                     GridCell<Integer> cell = it.next();
                     if (cell.pos().row() == pos.row() && cell.pos().col() == pos.col()) {

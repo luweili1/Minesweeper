@@ -10,13 +10,11 @@ public class Grid<E> implements IGrid<E> {
     private ArrayList<ArrayList<E>> grid;
 
     public Grid(int rows, int cols) {
-        // konstruktør 1
         this(rows, cols, null);
 
     }
 
     public Grid(int rows, int cols, E defaultvalue) {
-        // konstruktør 2
         this.grid = new ArrayList<>();
         this.rows = rows;
         this.cols = cols;

@@ -26,7 +26,7 @@ public class MineSweeperView extends JPanel {
         this.model = model;
         this.setBackground(colorTheme.getBackgroundColor());
         this.setFocusable(true);
-        this.setPreferredSize(new Dimension(500, 700));
+        this.setPreferredSize(new Dimension(700, 700));
     }
 
     @Override
@@ -44,28 +44,22 @@ public class MineSweeperView extends JPanel {
         double width = this.getWidth() - 2 * margin;
         double height = this.getHeight() - (2 * margin) - headerHeight;
 
-        // Tegn rammen for spillbrettet
         g2.setColor(colorTheme.getFrameColor());
         Rectangle2D boardRect = new Rectangle2D.Double(x, y, width, height);
         g2.fill(boardRect);
         g2.draw(boardRect);
 
-        // Konverterer for å få størrelsen på hver celle
         CellPositionToPixelConverter converter = new CellPositionToPixelConverter(boardRect, model.getDimension(),
                 margin);
 
-        // Tegn alle cellene på spillbrettet
         drawCells(g2, model.getTilesonBoard(), converter, colorTheme);
 
-        // Tegn smilefjes, teller og instruksjoner
         drawSmiley(g2);
         drawCounter(g2);
         drawInstructions(g2);
 
-        // Håndter forskjellige spilltilstander
         GameState gameState = model.getGameState();
         if (gameState == GameState.GAME_OVER || gameState == GameState.GAME_WON) {
-            // Fyll hele spillbrettet med passende farge for spilltilstanden
             Color fillColor;
             if (gameState == GameState.GAME_OVER) {
                 fillColor = colorTheme.getGameOverColor();
@@ -98,8 +92,8 @@ public class MineSweeperView extends JPanel {
                 g2.fill(rectangle);
                 double x = rectangle.getCenterX();
                 double y = rectangle.getCenterY();
-                BufferedImage image = Inf101Graphics.loadImageFromResources("/src/main/resources/Minesweeperflag.png");
-                Inf101Graphics.drawCenteredImage(g2, image, x, y, 0.15);
+                BufferedImage image = Inf101Graphics.loadImageFromResources("/Minesweeperflag.png");
+                Inf101Graphics.drawCenteredImage(g2, image, x, y, 0.025);
             }
             if (cell.value().getHidden() == false) {
                 g2.setColor(colorTheme.getUncoveredCellColor());
@@ -124,24 +118,20 @@ public class MineSweeperView extends JPanel {
     }
 
     private void drawSmiley(Graphics2D g2d) {
-        double margin = 2;
-        double x = 200;
+        double margin = 1;
+        double x = 280;
         double y = margin * 2;
-        double width = 55;
-        double height = 55;
-        Rectangle2D smileyRectangle = new Rectangle2D.Double(x, y, width, height);
+
         g2d.setColor(colorTheme.getCellColor(minecell));
-        g2d.fill(smileyRectangle);
-        g2d.draw(smileyRectangle);
 
         if (model.getGameState() == GameState.ACTIVE_GAME) {
             BufferedImage image = Inf101Graphics.loadImageFromResources("/Smiley.png");
-            Inf101Graphics.drawImage(g2d, image, x, y, 0.10);
+            Inf101Graphics.drawImage(g2d, image, x, y, 0.15);
         }
 
         if (model.getGameState() == GameState.GAME_OVER) {
             BufferedImage image = Inf101Graphics.loadImageFromResources("/Sad.png");
-            Inf101Graphics.drawImage(g2d, image, x, y, 0.10);
+            Inf101Graphics.drawImage(g2d, image, x, y, 0.20);
         }
 
         if (model.getGameState() == GameState.GAME_WON) {
@@ -188,10 +178,10 @@ public class MineSweeperView extends JPanel {
         double margin = 2;
         double x = 4;
         double y = margin * 2;
-        double width = 250;
+        double width = 200;
         double height = 55;
         Rectangle2D rectangle = new Rectangle2D.Double(x, y, width, height);
-        g2.setColor(Color.lightGray);
+        g2.setColor(Color.LIGHT_GRAY);
         g2.fill(rectangle);
         g2.draw(rectangle);
 
@@ -199,7 +189,7 @@ public class MineSweeperView extends JPanel {
         String string2 = "Right-click: flag a cell";
         String string3 = "Press space: start over";
 
-        g2.setColor(colorTheme.getGameOverTextColor());
+        g2.setColor(colorTheme.getFrameColor());
         g2.setFont(new Font("Arial", Font.BOLD, 14));
         int x1 = 8;
         int y1 = 20;
