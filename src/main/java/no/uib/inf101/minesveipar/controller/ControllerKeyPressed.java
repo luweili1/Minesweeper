@@ -4,14 +4,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import no.uib.inf101.minesveipar.MineSveiparMain;
-import no.uib.inf101.minesveipar.view.MineSweeperView;
+import no.uib.inf101.minesveipar.view.MineSveiparView;
 
 public class ControllerKeyPressed implements KeyListener {
 
     ControllableMineSveiparModel model;
-    MineSweeperView view;
+    MineSveiparView view;
 
-    public ControllerKeyPressed(ControllableMineSveiparModel model, MineSweeperView view) {
+    public ControllerKeyPressed(ControllableMineSveiparModel model, MineSveiparView view) {
         this.model = model;
         this.view = view;
 

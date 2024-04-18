@@ -16,7 +16,7 @@ public class SveiparModel implements ViewableMineSveiparModel, ControllableMineS
     Board board;
     public GameState gameState;
     private List<GridCell<Integer>> flaggedValues;
-    private final int mines = 99;
+    private final int mines = 10;
 
     public SveiparModel(Board board) {
         this.board = board;
@@ -42,53 +42,23 @@ public class SveiparModel implements ViewableMineSveiparModel, ControllableMineS
         for (int i = 0; i < this.board.rows(); i++) {
             for (int j = 0; j < this.board.cols(); j++) {
                 CellPosition pos = new CellPosition(i, j);
+
                 if (this.board.get(pos).getValue() != -1) {
                     int count = 0;
-                    if (this.board.positionIsOnGrid(new CellPosition(i - 1, j))) {
-                        if (this.board.get(new CellPosition(i - 1, j)).getValue() == -1) {
-                            count++;
-                        }
-                    }
 
-                    if (this.board.positionIsOnGrid(new CellPosition(i - 1, j + 1))) {
-                        if (this.board.get(new CellPosition(i - 1, j + 1)).getValue() == -1) {
-                            count++;
-                        }
-                    }
+                    for (int rowOffset = -1; rowOffset <= 1; rowOffset++) {
+                        for (int colOffset = -1; colOffset <= 1; colOffset++) {
+                            if (rowOffset == 0 && colOffset == 0) {
+                                continue;
+                            }
 
-                    if (this.board.positionIsOnGrid(new CellPosition(i, j + 1))) {
-                        if (this.board.get(new CellPosition(i, j + 1)).getValue() == -1) {
-                            count++;
-                        }
-                    }
+                            int neighborRow = pos.row() + rowOffset;
+                            int neighborCol = pos.col() + colOffset;
 
-                    if (this.board.positionIsOnGrid(new CellPosition(i + 1, j + 1))) {
-                        if (this.board.get(new CellPosition(i + 1, j + 1)).getValue() == -1) {
-                            count++;
-                        }
-                    }
-
-                    if (this.board.positionIsOnGrid(new CellPosition(i + 1, j))) {
-                        if (this.board.get(new CellPosition(i + 1, j)).getValue() == -1) {
-                            count++;
-                        }
-                    }
-
-                    if (this.board.positionIsOnGrid(new CellPosition(i + 1, j - 1))) {
-                        if (this.board.get(new CellPosition(i + 1, j - 1)).getValue() == -1) {
-                            count++;
-                        }
-                    }
-
-                    if (this.board.positionIsOnGrid(new CellPosition(i, j - 1))) {
-                        if (this.board.get(new CellPosition(i, j - 1)).getValue() == -1) {
-                            count++;
-                        }
-                    }
-
-                    if (this.board.positionIsOnGrid(new CellPosition(i - 1, j - 1))) {
-                        if (this.board.get(new CellPosition(i - 1, j - 1)).getValue() == -1) {
-                            count++;
+                            if (this.board.positionIsOnGrid(new CellPosition(neighborRow, neighborCol)) &&
+                                    this.board.get(new CellPosition(neighborRow, neighborCol)).getValue() == -1) {
+                                count++;
+                            }
                         }
                     }
 
@@ -124,57 +94,20 @@ public class SveiparModel implements ViewableMineSveiparModel, ControllableMineS
 
     }
 
+    private boolean isValidAndEmptyCell(CellPosition pos) {
+        return this.board.positionIsOnGrid(pos) && this.board.get(pos).getValue() != -1;
+    }
+
     @Override
     public void uncoverSurroundingCells(CellPosition pos) {
+        int[][] offsets = { { -1, 0 }, { -1, 1 }, { 0, 1 }, { 1, 1 }, { 1, 0 }, { 1, -1 }, { 0, -1 }, { -1, -1 } };
 
-        if (this.board.positionIsOnGrid(new CellPosition(pos.row() - 1, pos.col()))) {
-            if (this.board.get(new CellPosition(pos.row() - 1, pos.col())).getValue() != -1) {
-                uncoverCell(new CellPosition(pos.row() - 1, pos.col()));
+        for (int[] offset : offsets) {
+            CellPosition neighborPos = new CellPosition(pos.row() + offset[0], pos.col() + offset[1]);
+            if (isValidAndEmptyCell(neighborPos)) {
+                uncoverCell(neighborPos);
             }
         }
-
-        if (this.board.positionIsOnGrid(new CellPosition(pos.row() - 1, pos.col() + 1))) {
-            if (this.board.get(new CellPosition(pos.row() - 1, pos.col() + 1)).getValue() != -1) {
-                uncoverCell(new CellPosition(pos.row() - 1, pos.col() + 1));
-            }
-        }
-
-        if (this.board.positionIsOnGrid(new CellPosition(pos.row(), pos.col() + 1))) {
-            if (this.board.get(new CellPosition(pos.row(), pos.col() + 1)).getValue() != -1) {
-                uncoverCell(new CellPosition(pos.row(), pos.col() + 1));
-            }
-        }
-
-        if (this.board.positionIsOnGrid(new CellPosition(pos.row() + 1, pos.col() + 1))) {
-            if (this.board.get(new CellPosition(pos.row() + 1, pos.col() + 1)).getValue() != -1) {
-                uncoverCell(new CellPosition(pos.row() + 1, pos.col() + 1));
-            }
-        }
-
-        if (this.board.positionIsOnGrid(new CellPosition(pos.row() + 1, pos.col()))) {
-            if (this.board.get(new CellPosition(pos.row() + 1, pos.col())).getValue() != -1) {
-                uncoverCell(new CellPosition(pos.row() + 1, pos.col()));
-            }
-        }
-
-        if (this.board.positionIsOnGrid(new CellPosition(pos.row() + 1, pos.col() - 1))) {
-            if (this.board.get(new CellPosition(pos.row() + 1, pos.col() - 1)).getValue() != -1) {
-                uncoverCell(new CellPosition(pos.row() + 1, pos.col() - 1));
-            }
-        }
-
-        if (this.board.positionIsOnGrid(new CellPosition(pos.row(), pos.col() - 1))) {
-            if (this.board.get(new CellPosition(pos.row(), pos.col() - 1)).getValue() != -1) {
-                uncoverCell(new CellPosition(pos.row(), pos.col() - 1));
-            }
-        }
-
-        if (this.board.positionIsOnGrid(new CellPosition(pos.row() - 1, pos.col() - 1))) {
-            if (this.board.get(new CellPosition(pos.row() - 1, pos.col() - 1)).getValue() != -1) {
-                uncoverCell(new CellPosition(pos.row() - 1, pos.col() - 1));
-            }
-        }
-
     }
 
     private Boolean isMine(CellPosition pos) {

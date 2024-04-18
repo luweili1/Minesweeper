@@ -14,13 +14,13 @@ import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
-public class MineSweeperView extends JPanel {
+public class MineSveiparView extends JPanel {
 
     ViewableMineSveiparModel model;
     ColorTheme colorTheme;
     MineCell minecell;
 
-    public MineSweeperView(ViewableMineSveiparModel model) {
+    public MineSveiparView(ViewableMineSveiparModel model) {
         this.colorTheme = new DefaultColorTheme();
         this.minecell = new MineCell(0, true);
         this.model = model;
@@ -37,7 +37,7 @@ public class MineSweeperView extends JPanel {
     }
 
     private void drawGame(Graphics2D g2) {
-        double margin = 2;
+        double margin = 4;
         double headerHeight = this.getHeight() * 1 / 8;
         double x = margin;
         double y = margin + headerHeight;

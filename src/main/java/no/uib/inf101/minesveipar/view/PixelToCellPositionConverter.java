@@ -23,8 +23,8 @@ public class PixelToCellPositionConverter {
         int heightOfCell = (int) this.box.getHeight() / rows;
         int widthOfCell = (int) this.box.getWidth() / cols;
 
-        int cell_x = (pos.col() / heightOfCell) - 2;
-        int cell_y = (pos.row() / widthOfCell);
+        int cell_x = (int) Math.floor(pos.col() / heightOfCell) - 2;
+        int cell_y = (int) Math.floor(pos.row() / widthOfCell);
 
         CellPosition cp = new CellPosition(cell_x, cell_y);
         return cp;

@@ -3,15 +3,15 @@ package no.uib.inf101.minesveipar.controller;
 import java.awt.event.MouseEvent;
 
 import no.uib.inf101.grid.CellPosition;
-import no.uib.inf101.minesveipar.view.MineSweeperView;
+import no.uib.inf101.minesveipar.view.MineSveiparView;
 import no.uib.inf101.minesveipar.view.PixelToCellPositionConverter;
 
 public class MineSweeperController implements java.awt.event.MouseListener {
 
     ControllableMineSveiparModel model;
-    MineSweeperView view;
+    MineSveiparView view;
 
-    public MineSweeperController(ControllableMineSveiparModel controll, MineSweeperView view) {
+    public MineSweeperController(ControllableMineSveiparModel controll, MineSveiparView view) {
         this.model = controll;
         this.view = view;
         view.addMouseListener(this);

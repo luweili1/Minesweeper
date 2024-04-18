@@ -32,7 +32,7 @@ public class DefaultColorTheme implements ColorTheme {
 
     @Override
     public Color getFrameColor() {
-        return Color.WHITE;
+        return new Color(139, 69, 19);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class DefaultColorTheme implements ColorTheme {
 
     @Override
     public Color getUncoveredCellColor() {
-        return Color.LIGHT_GRAY;
+        return new Color(238, 238, 238);
     }
 
     @Override

@@ -33,7 +33,7 @@ public class DefaultColorThemeTest {
     @Test
     public void testFrameColor() {
         ColorTheme colorTheme = new DefaultColorTheme();
-        assertEquals(Color.WHITE, colorTheme.getFrameColor());
+        assertEquals(new Color(139, 69, 19), colorTheme.getFrameColor());
     }
 
     @Test
@@ -57,7 +57,7 @@ public class DefaultColorThemeTest {
     @Test
     public void testUncoveredCellColor() {
         ColorTheme colorTheme = new DefaultColorTheme();
-        assertEquals(Color.LIGHT_GRAY, colorTheme.getUncoveredCellColor());
+        assertEquals(new Color(238, 238, 238), colorTheme.getUncoveredCellColor());
     }
 
     @Test
