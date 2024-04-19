@@ -17,6 +17,7 @@ public class SveiparModel implements ViewableMineSveiparModel, ControllableMineS
     public GameState gameState;
     private List<GridCell<Integer>> flaggedValues;
     private final int mines = 10;
+    int value;
 
     public SveiparModel(Board board) {
         this.board = board;
@@ -76,7 +77,7 @@ public class SveiparModel implements ViewableMineSveiparModel, ControllableMineS
     @Override
     public Integer uncoverCell(CellPosition pos) {
         if (isHidden(pos) == true) {
-            int value = this.board.get(pos).getValue();
+            value = this.board.get(pos).getValue();
             if (value != 10) {
                 setUncovered(pos, false);
 
@@ -136,7 +137,7 @@ public class SveiparModel implements ViewableMineSveiparModel, ControllableMineS
     public void flagMine(CellPosition pos) {
         if (isHidden(pos) == true) {
             if (!isFlagged(pos)) {
-                if (mineCounter() != 0) {
+                if (mineCounter() > 0) {
                     this.flaggedValues.add(new GridCell<Integer>(pos, this.board.get(pos).getValue()));
                     this.board.set(pos, new MineCell(10, true));
                 }
@@ -208,5 +209,10 @@ public class SveiparModel implements ViewableMineSveiparModel, ControllableMineS
     @Override
     public Iterable<GridCell<MineCell>> getTilesonBoard() {
         return this.board;
+    }
+
+    @Override
+    public int value() {
+        return value;
     }
 }

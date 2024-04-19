@@ -32,7 +32,7 @@ public class DefaultColorTheme implements ColorTheme {
 
     @Override
     public Color getFrameColor() {
-        return new Color(139, 69, 19);
+        return new Color(91, 91, 91);
     }
 
     @Override

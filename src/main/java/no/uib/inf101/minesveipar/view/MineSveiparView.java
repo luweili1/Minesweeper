@@ -3,6 +3,7 @@ package no.uib.inf101.minesveipar.view;
 import javax.swing.JPanel;
 
 import no.uib.inf101.grid.GridCell;
+import no.uib.inf101.minesveipar.controller.ControllableMineSveiparModel;
 import no.uib.inf101.minesveipar.model.GameState;
 import no.uib.inf101.minesveipar.model.MineCell;
 
@@ -26,7 +27,7 @@ public class MineSveiparView extends JPanel {
         this.model = model;
         this.setBackground(colorTheme.getBackgroundColor());
         this.setFocusable(true);
-        this.setPreferredSize(new Dimension(700, 700));
+        this.setPreferredSize(new Dimension(550, 650));
     }
 
     @Override
@@ -38,7 +39,7 @@ public class MineSveiparView extends JPanel {
 
     private void drawGame(Graphics2D g2) {
         double margin = 4;
-        double headerHeight = this.getHeight() * 1 / 8;
+        double headerHeight = this.getHeight() * 0.1;
         double x = margin;
         double y = margin + headerHeight;
         double width = this.getWidth() - 2 * margin;
@@ -81,52 +82,44 @@ public class MineSveiparView extends JPanel {
             Iterable<GridCell<MineCell>> cells,
             CellPositionToPixelConverter converter,
             ColorTheme colorTheme) {
+        BufferedImage texture = Inf101Graphics.loadImageFromResources("/minesweeperTexture.png");
+
         for (GridCell<MineCell> cell : cells) {
             Rectangle2D rectangle = converter.getBoundsForCell(cell.pos());
-            g2.setColor(colorTheme.getBackgroundColor());
-            g2.fill(rectangle);
-            g2.draw(rectangle);
 
-            if (cell.value().getValue() == 10) {
-                g2.setColor(colorTheme.getUncoveredCellColor());
-                g2.fill(rectangle);
-                double x = rectangle.getCenterX();
-                double y = rectangle.getCenterY();
-                BufferedImage image = Inf101Graphics.loadImageFromResources("/Minesweeperflag.png");
-                Inf101Graphics.drawCenteredImage(g2, image, x, y, 0.025);
-            }
-            if (cell.value().getHidden() == false) {
-                g2.setColor(colorTheme.getUncoveredCellColor());
-                g2.fill(rectangle);
+            // Cell ikon
+            g2.drawImage(texture.getSubimage(16, 32, 16, 16), (int) rectangle.getX(), (int) rectangle.getY(),
+                    (int) rectangle.getWidth(), (int) rectangle.getHeight(), null);
+
+            if (((ControllableMineSveiparModel) model).isFlagged(cell.pos())) { // Flag
+                g2.drawImage(texture.getSubimage(31, 31, 16, 16), (int) rectangle.getX(), (int) rectangle.getY(),
+                        (int) rectangle.getWidth(), (int) rectangle.getHeight(), null);
+            } else if (cell.value().getHidden() == false) {
                 if (cell.value().getValue() != 0) {
                     if (cell.value().getValue() == -1) {
-                        g2.setColor(colorTheme.getUncoveredCellColor());
-                        g2.fill(rectangle);
-                        double x = rectangle.getCenterX();
-                        double y = rectangle.getCenterY();
-                        BufferedImage image = Inf101Graphics.loadImageFromResources("/Bomb.png");
-                        Inf101Graphics.drawCenteredImage(g2, image, x, y, 0.060);
+                        // mine
+                        g2.drawImage(texture.getSubimage(0, 49, 16, 16), (int) rectangle.getX(),
+                                (int) rectangle.getY(),
+                                (int) rectangle.getWidth(), (int) rectangle.getHeight(), null);
+                    } else {
+                        g2.drawImage(texture.getSubimage(0, 0, 16, 16), (int) rectangle.getX(), (int) rectangle.getY(),
+                                (int) rectangle.getWidth(), (int) rectangle.getHeight(), null);
+
                     }
-                    g2.setColor(colorTheme.getCellColor(new MineCell(cell.value().getValue(), false)));
-                    g2.setFont(new Font("Arial", Font.BOLD, 18));
-                    String string = String.valueOf(cell.value().getValue());
-                    Inf101Graphics.drawCenteredString(g2, string, rectangle);
                 }
             }
-
         }
     }
 
     private void drawSmiley(Graphics2D g2d) {
-        double margin = 1;
-        double x = 280;
-        double y = margin * 2;
+        double x = 190;
+        double y = -10;
 
         g2d.setColor(colorTheme.getCellColor(minecell));
 
         if (model.getGameState() == GameState.ACTIVE_GAME) {
             BufferedImage image = Inf101Graphics.loadImageFromResources("/Smiley.png");
-            Inf101Graphics.drawImage(g2d, image, x, y, 0.15);
+            Inf101Graphics.drawImage(g2d, image, x, y, 0.14);
         }
 
         if (model.getGameState() == GameState.GAME_OVER) {
@@ -156,17 +149,17 @@ public class MineSveiparView extends JPanel {
 
     private void drawCounter(Graphics2D g2) {
         double margin = 2;
-        double x = 560;
+        double x = 400;
         double y = margin * 2;
         double width = 100;
         double height = 55;
         Rectangle2D rectangle = new Rectangle2D.Double(x, y, width, height);
-        g2.setColor(colorTheme.getUncoveredCellColor());
+        g2.setColor(colorTheme.getBackgroundColor());
         g2.fill(rectangle);
         g2.draw(rectangle);
         for (int i = 0; i < this.model.mineCounter(); i++) {
             int count = this.model.mineCounter();
-            g2.setColor(colorTheme.getGameOverTextColor());
+            g2.setColor(colorTheme.getFrameColor());
             g2.setFont(new Font("Arial", Font.BOLD, 40));
             String string = String.valueOf(count);
             Inf101Graphics.drawCenteredString(g2, string, rectangle);
@@ -181,7 +174,7 @@ public class MineSveiparView extends JPanel {
         double width = 200;
         double height = 55;
         Rectangle2D rectangle = new Rectangle2D.Double(x, y, width, height);
-        g2.setColor(Color.LIGHT_GRAY);
+        g2.setColor(colorTheme.getBackgroundColor());
         g2.fill(rectangle);
         g2.draw(rectangle);
 

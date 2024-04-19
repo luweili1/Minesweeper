@@ -12,12 +12,12 @@ public class MineCellTest {
     public void testMineCellCreation() {
         MineCell cell = new MineCell(-1, true);
 
-        assertEquals(-1, cell.getValue()); // hidden mine
+        assertEquals(-1, cell.getValue());
         assertTrue(cell.getHidden());
 
         cell = new MineCell(2, false);
 
-        assertEquals(2, cell.getValue()); // 2 hidden mines already uncovered
+        assertEquals(2, cell.getValue());
         assertFalse(cell.getHidden());
     }
 }
