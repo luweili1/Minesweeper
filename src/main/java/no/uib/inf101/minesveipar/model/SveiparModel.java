@@ -135,7 +135,7 @@ public class SveiparModel implements ViewableMineSveiparModel, ControllableMineS
 
     @Override
     public void flagMine(CellPosition pos) {
-        if (isHidden(pos) == true) {
+        if (isHidden(pos)) {
             if (!isFlagged(pos)) {
                 if (mineCounter() > 0) {
                     this.flaggedValues.add(new GridCell<Integer>(pos, this.board.get(pos).getValue()));

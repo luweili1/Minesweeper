@@ -24,6 +24,7 @@ public class MineSveiparMain {
     frame.setContentPane(view);
     frame.pack();
     frame.setVisible(true);
+    frame.setResizable(false);
   }
 
 }

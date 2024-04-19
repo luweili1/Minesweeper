@@ -98,10 +98,10 @@ public class MineSveiparView extends JPanel {
                 if (cell.value().getValue() != 0) {
                     if (cell.value().getValue() == -1) {
                         // mine
-                        g2.drawImage(texture.getSubimage(0, 49, 16, 16), (int) rectangle.getX(),
+                        g2.drawImage(texture.getSubimage(1, 49, 14, 14), (int) rectangle.getX(),
                                 (int) rectangle.getY(),
                                 (int) rectangle.getWidth(), (int) rectangle.getHeight(), null);
-                    } else {
+                    } else { // empty cell
                         g2.drawImage(texture.getSubimage(0, 0, 16, 16), (int) rectangle.getX(), (int) rectangle.getY(),
                                 (int) rectangle.getWidth(), (int) rectangle.getHeight(), null);
 
