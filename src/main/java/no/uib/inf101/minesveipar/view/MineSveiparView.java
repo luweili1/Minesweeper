@@ -55,7 +55,7 @@ public class MineSveiparView extends JPanel {
 
         drawCells(g2, model.getTilesonBoard(), converter, colorTheme);
 
-        drawSmiley(g2);
+        drawFace(g2);
         drawCounter(g2);
         drawInstructions(g2);
 
@@ -73,7 +73,7 @@ public class MineSveiparView extends JPanel {
             // Tegn meldingen (enten "Game Over" eller "You Won!") sentrert i spillbrettet
             String message = (gameState == GameState.GAME_OVER) ? "Game Over" : "You Won!";
             g2.setColor(colorTheme.getGameOverTextColor());
-            g2.setFont(new Font("Monospaced", Font.BOLD, 40));
+            g2.setFont(new Font("DialogInput", Font.BOLD, 40));
             Inf101Graphics.drawCenteredString(g2, message, boardRect);
         }
     }
@@ -87,7 +87,7 @@ public class MineSveiparView extends JPanel {
         for (GridCell<MineCell> cell : cells) {
             Rectangle2D rectangle = converter.getBoundsForCell(cell.pos());
 
-            // Cell ikon
+            // Draw base texture
             g2.drawImage(texture.getSubimage(16, 32, 16, 16), (int) rectangle.getX(), (int) rectangle.getY(),
                     (int) rectangle.getWidth(), (int) rectangle.getHeight(), null);
 
@@ -95,15 +95,39 @@ public class MineSveiparView extends JPanel {
                 g2.drawImage(texture.getSubimage(31, 31, 16, 16), (int) rectangle.getX(), (int) rectangle.getY(),
                         (int) rectangle.getWidth(), (int) rectangle.getHeight(), null);
             } else if (cell.value().getHidden() == false) {
-                if (cell.value().getValue() != 0) {
-                    if (cell.value().getValue() == -1) {
-                        // mine
-                        g2.drawImage(texture.getSubimage(1, 49, 14, 14), (int) rectangle.getX(),
-                                (int) rectangle.getY(),
-                                (int) rectangle.getWidth(), (int) rectangle.getHeight(), null);
-                    } else { // empty cell
-                        g2.drawImage(texture.getSubimage(0, 0, 16, 16), (int) rectangle.getX(), (int) rectangle.getY(),
-                                (int) rectangle.getWidth(), (int) rectangle.getHeight(), null);
+                int value = cell.value().getValue();
+                if (value == 0) { // Empty cell
+                    g2.drawImage(texture.getSubimage(0, 0, 16, 16), (int) rectangle.getX(), (int) rectangle.getY(),
+                            (int) rectangle.getWidth(), (int) rectangle.getHeight(), null);
+                } else if (value == -1) { // Mine
+                    g2.drawImage(texture.getSubimage(1, 49, 14, 14), (int) rectangle.getX(), (int) rectangle.getY(),
+                            (int) rectangle.getWidth(), (int) rectangle.getHeight(), null);
+                } else { // Numbered cell (1-8)
+                    // Custom texture coordinates for values 1 to 8
+                    if (value == 1) {
+                        g2.drawImage(texture.getSubimage(17, 0, 14, 14), (int) rectangle.getX(),
+                                (int) rectangle.getY(), (int) rectangle.getWidth(), (int) rectangle.getHeight(), null);
+                    } else if (value == 2) {
+                        g2.drawImage(texture.getSubimage(33, 0, 14, 14), (int) rectangle.getX(),
+                                (int) rectangle.getY(), (int) rectangle.getWidth(), (int) rectangle.getHeight(), null);
+                    } else if (value == 3) {
+                        g2.drawImage(texture.getSubimage(49, 0, 14, 14), (int) rectangle.getX(),
+                                (int) rectangle.getY(), (int) rectangle.getWidth(), (int) rectangle.getHeight(), null);
+                    } else if (value == 4) {
+                        g2.drawImage(texture.getSubimage(0, 16, 14, 14), (int) rectangle.getX(),
+                                (int) rectangle.getY(), (int) rectangle.getWidth(), (int) rectangle.getHeight(), null);
+                    } else if (value == 5) {
+                        g2.drawImage(texture.getSubimage(17, 17, 14, 14), (int) rectangle.getX(),
+                                (int) rectangle.getY(), (int) rectangle.getWidth(), (int) rectangle.getHeight(), null);
+                    } else if (value == 6) {
+                        g2.drawImage(texture.getSubimage(33, 16, 14, 14), (int) rectangle.getX(),
+                                (int) rectangle.getY(), (int) rectangle.getWidth(), (int) rectangle.getHeight(), null);
+                    } else if (value == 7) {
+                        g2.drawImage(texture.getSubimage(49, 16, 14, 14), (int) rectangle.getX(),
+                                (int) rectangle.getY(), (int) rectangle.getWidth(), (int) rectangle.getHeight(), null);
+                    } else if (value == 8) {
+                        g2.drawImage(texture.getSubimage(0, 32, 14, 14), (int) rectangle.getX(),
+                                (int) rectangle.getY(), (int) rectangle.getWidth(), (int) rectangle.getHeight(), null);
 
                     }
                 }
@@ -111,26 +135,25 @@ public class MineSveiparView extends JPanel {
         }
     }
 
-    private void drawSmiley(Graphics2D g2d) {
-        double x = 190;
-        double y = -10;
-
-        g2d.setColor(colorTheme.getCellColor(minecell));
+    private void drawFace(Graphics2D g2d) {
+        double x;
+        double y;
+        String imagePath;
 
         if (model.getGameState() == GameState.ACTIVE_GAME) {
-            BufferedImage image = Inf101Graphics.loadImageFromResources("/Smiley.png");
-            Inf101Graphics.drawImage(g2d, image, x, y, 0.14);
+            x = 190;
+            y = -10;
+            imagePath = "/Smiley.png";
+        } else {
+            x = 200;
+            y = -2.3;
+            imagePath = "/Sad.png";
         }
 
-        if (model.getGameState() == GameState.GAME_OVER) {
-            BufferedImage image = Inf101Graphics.loadImageFromResources("/Sad.png");
-            Inf101Graphics.drawImage(g2d, image, x, y, 0.20);
-        }
+        BufferedImage image = Inf101Graphics.loadImageFromResources(imagePath);
+        Inf101Graphics.drawImage(g2d, image, x, y, (imagePath.equals("/Smiley.png") ? 0.14 : 0.23)); // Adjust scale
+                                                                                                     // based on image
 
-        if (model.getGameState() == GameState.GAME_WON) {
-            BufferedImage image = Inf101Graphics.loadImageFromResources("/win.png");
-            Inf101Graphics.drawImage(g2d, image, x, y, 0.8);
-        }
     }
 
     /**
@@ -160,7 +183,7 @@ public class MineSveiparView extends JPanel {
         for (int i = 0; i < this.model.mineCounter(); i++) {
             int count = this.model.mineCounter();
             g2.setColor(colorTheme.getFrameColor());
-            g2.setFont(new Font("Arial", Font.BOLD, 40));
+            g2.setFont(new Font("DialogInput", Font.BOLD, 40));
             String string = String.valueOf(count);
             Inf101Graphics.drawCenteredString(g2, string, rectangle);
         }
@@ -183,7 +206,7 @@ public class MineSveiparView extends JPanel {
         String string3 = "Press space: start over";
 
         g2.setColor(colorTheme.getFrameColor());
-        g2.setFont(new Font("Arial", Font.BOLD, 14));
+        g2.setFont(new Font("DialogInput", Font.BOLD, 14));
         int x1 = 8;
         int y1 = 20;
         int y2 = 35;

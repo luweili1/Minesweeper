@@ -26,7 +26,7 @@ public class PixelToCellPositionConverter {
         int cell_x = (int) Math.floor(pos.col() / heightOfCell) - 2;
         int cell_y = (int) Math.floor(pos.row() / widthOfCell);
 
-        CellPosition cp = new CellPosition(cell_x, cell_y);
+        CellPosition cp = new CellPosition(cell_x + 1, cell_y);
         return cp;
     }
 }

@@ -16,7 +16,7 @@ public class SveiparModel implements ViewableMineSveiparModel, ControllableMineS
     Board board;
     public GameState gameState;
     private List<GridCell<Integer>> flaggedValues;
-    private final int mines = 10;
+    private final int mines = 30;
     int value;
 
     public SveiparModel(Board board) {
@@ -74,25 +74,24 @@ public class SveiparModel implements ViewableMineSveiparModel, ControllableMineS
         return this.gameState;
     }
 
-    @Override
     public Integer uncoverCell(CellPosition pos) {
         if (isHidden(pos) == true) {
             value = this.board.get(pos).getValue();
             if (value != 10) {
                 setUncovered(pos, false);
 
-                if (isMine(pos)) {
+                if (value == -1) {
                     gameState = GameState.GAME_OVER;
                     uncoverMines();
-                }
-                if (value == 0) {
+                } else if (value == 0) {
                     uncoverSurroundingCells(pos);
+                } else {
+                    this.board.set(pos, new MineCell(value, false));
                 }
                 return value;
             }
         }
         return null;
-
     }
 
     private boolean isValidAndEmptyCell(CellPosition pos) {
@@ -101,13 +100,14 @@ public class SveiparModel implements ViewableMineSveiparModel, ControllableMineS
 
     @Override
     public void uncoverSurroundingCells(CellPosition pos) {
-        int[][] offsets = { { -1, 0 }, { -1, 1 }, { 0, 1 }, { 1, 1 }, { 1, 0 }, { 1, -1 }, { 0, -1 }, { -1, -1 } };
+        int[][] offsets = { { -1, 0 }, { 0, 1 }, { 1, 0 }, { 0, -1 } };
 
         for (int[] offset : offsets) {
             CellPosition neighborPos = new CellPosition(pos.row() + offset[0], pos.col() + offset[1]);
             if (isValidAndEmptyCell(neighborPos)) {
                 uncoverCell(neighborPos);
             }
+
         }
     }
 
@@ -133,16 +133,25 @@ public class SveiparModel implements ViewableMineSveiparModel, ControllableMineS
         }
     }
 
-    @Override
     public void flagMine(CellPosition pos) {
         if (isHidden(pos)) {
             if (!isFlagged(pos)) {
                 if (mineCounter() > 0) {
-                    this.flaggedValues.add(new GridCell<Integer>(pos, this.board.get(pos).getValue()));
-                    this.board.set(pos, new MineCell(10, true));
+                    // Check if cell already flagged before adding to list
+                    boolean alreadyFlagged = false;
+                    for (GridCell<Integer> cell : flaggedValues) {
+                        if (cell.pos().equals(pos)) {
+                            alreadyFlagged = true;
+                            break;
+                        }
+                    }
+                    if (!alreadyFlagged) {
+                        this.flaggedValues.add(new GridCell<Integer>(pos, this.board.get(pos).getValue()));
+                        this.board.set(pos, new MineCell(10, true));
+                    }
                 }
-
             } else {
+                // Unflag logic (same as before)
                 for (Iterator<GridCell<Integer>> it = this.flaggedValues.iterator(); it.hasNext();) {
                     GridCell<Integer> cell = it.next();
                     if (cell.pos().row() == pos.row() && cell.pos().col() == pos.col()) {
@@ -151,7 +160,6 @@ public class SveiparModel implements ViewableMineSveiparModel, ControllableMineS
                     }
                 }
             }
-
         }
     }
 
