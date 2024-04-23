@@ -19,6 +19,8 @@ public interface ControllableMineSveiparModel {
 
     GameState getGameState();
 
+    void setGameState(GameState gameState);
+
     int value();
 
 }

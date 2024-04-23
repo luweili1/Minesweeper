@@ -31,10 +31,33 @@ public class MineSveiparView extends JPanel {
     }
 
     @Override
-    protected void paintComponent(Graphics g) {
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         drawGame(g2);
+
+        if (model.getGameState() == GameState.WELCOME_SCREEN) {
+            Color overlay = colorTheme.getGameOverColor();
+            Color text = new Color(196, 201, 204);
+            g2.setColor(overlay);
+            g2.fillRect(0, 0, this.getWidth(), this.getHeight());
+            g2.setColor(text);
+            g2.setFont(new Font("DialogInput", Font.BOLD, 40));
+
+            String welcomeMessage = "Welcome to MineSveipar!";
+            int xWelcome = (this.getWidth() - g2.getFontMetrics().stringWidth(welcomeMessage)) / 2;
+            int yWelcome = (this.getHeight() - g2.getFontMetrics().getHeight()) / 2;
+            g2.drawString(welcomeMessage, xWelcome, yWelcome);
+
+            String startMessage = "Press enter to start";
+
+            g2.setFont(new Font("DialogInput", Font.BOLD, 20));
+            int xStart = (this.getWidth() - g2.getFontMetrics().stringWidth(startMessage)) / 2;
+            int yStart = yWelcome + g2.getFontMetrics().getHeight() + 25;
+            g2.drawString(startMessage, xStart, yStart);
+
+        }
+
     }
 
     private void drawGame(Graphics2D g2) {
@@ -64,14 +87,14 @@ public class MineSveiparView extends JPanel {
             Color fillColor;
             if (gameState == GameState.GAME_OVER) {
                 fillColor = colorTheme.getGameOverColor();
-            } else { // GameState.GAME_WON
+            } else {
                 fillColor = colorTheme.getGameWonColor();
             }
             g2.setColor(fillColor);
             g2.fill(boardRect);
 
             // Tegn meldingen (enten "Game Over" eller "You Won!") sentrert i spillbrettet
-            String message = (gameState == GameState.GAME_OVER) ? "Game Over" : "You Won!";
+            String message = (gameState == GameState.GAME_OVER) ? "Game Over:( " : "You Won!";
             g2.setColor(colorTheme.getGameOverTextColor());
             g2.setFont(new Font("DialogInput", Font.BOLD, 40));
             Inf101Graphics.drawCenteredString(g2, message, boardRect);
@@ -144,6 +167,12 @@ public class MineSveiparView extends JPanel {
             x = 190;
             y = -10;
             imagePath = "/Smiley.png";
+
+        } else if (model.getGameState() == GameState.WELCOME_SCREEN) {
+            x = 190;
+            y = -10;
+            imagePath = "/Smiley.png";
+
         } else {
             x = 200;
             y = -2.3;
@@ -151,8 +180,7 @@ public class MineSveiparView extends JPanel {
         }
 
         BufferedImage image = Inf101Graphics.loadImageFromResources(imagePath);
-        Inf101Graphics.drawImage(g2d, image, x, y, (imagePath.equals("/Smiley.png") ? 0.14 : 0.23)); // Adjust scale
-                                                                                                     // based on image
+        Inf101Graphics.drawImage(g2d, image, x, y, (imagePath.equals("/Smiley.png") ? 0.14 : 0.23));
 
     }
 
@@ -203,16 +231,16 @@ public class MineSveiparView extends JPanel {
 
         String string = "Left-click: uncover a cell";
         String string2 = "Right-click: flag a cell";
-        String string3 = "Press space: start over";
+        String string3 = "Press enter: start over";
 
         g2.setColor(colorTheme.getFrameColor());
-        g2.setFont(new Font("DialogInput", Font.BOLD, 14));
+        g2.setFont(new Font("DialogInput", Font.BOLD, 15));
         int x1 = 8;
         int y1 = 20;
         int y2 = 35;
         int y3 = 50;
 
-        g2.setColor(Color.BLACK);
+        g2.setColor(colorTheme.getFrameColor());
         g2.drawString(string, x1, y1);
         g2.drawString(string2, x1, y2);
         g2.drawString(string3, x1, y3);

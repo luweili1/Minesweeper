@@ -15,6 +15,7 @@ public class MineSweeperController implements java.awt.event.MouseListener {
         this.model = controll;
         this.view = view;
         view.addMouseListener(this);
+        view.setFocusable(true);
     }
 
     @Override
@@ -39,6 +40,7 @@ public class MineSweeperController implements java.awt.event.MouseListener {
             this.model.flagMine(pos);
             this.view.repaint();
             this.view.revalidate();
+
         }
     }
 
