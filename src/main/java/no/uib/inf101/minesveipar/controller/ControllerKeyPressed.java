@@ -104,6 +104,7 @@ public class ControllerKeyPressed implements KeyListener {
         view.stopTimer();
         view.startTimer();
         model.setGameState(GameState.ACTIVE_GAME);
+
     }
 
     @Override

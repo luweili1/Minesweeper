@@ -16,7 +16,7 @@ public class BoardTest {
     }
 
     @Test
-    public void testPrettyStringAllHidden() { // hidden -
+    public void testPrettyStringAllHidden() {
         Board board = new Board(3, 4);
         String expected = String.join("\n", new String[] {
                 "----",
@@ -34,8 +34,8 @@ public class BoardTest {
 
         model.board.set(pos, new MineCell(1, true));
         int revealedValue = model.uncoverCell(pos);
-        assertFalse(model.isHidden(pos)); // Should be false --> the cell is now revealed
-        assertEquals(1, revealedValue); // Check if the value returns to 1 after uncovering
+        assertFalse(model.isHidden(pos));
+        assertEquals(1, revealedValue);
 
     }
 

@@ -13,7 +13,7 @@ import no.uib.inf101.minesveipar.model.GameState;
  */
 public interface ControllableMineSveiparModel {
     /**
-     * Places mines randomly on the game grid.
+     * Places mines randomly on the MineSveipar grid.
      */
     void placingMines();
 

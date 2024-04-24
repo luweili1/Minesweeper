@@ -82,9 +82,9 @@ public class MineSveiparView extends JPanel {
             g2.drawString(startMessage, xStart, yStart);
 
             g2.setFont(new Font("Monospaced", Font.PLAIN, 16));
-            String instruction1 = "Left-click to uncover a cell";
-            String instruction2 = "Right-click to flag a cell";
-            String instruction3 = "Enter to restart";
+            String instruction1 = "Left-click: uncover a cell";
+            String instruction2 = "Right-click: flag a cell";
+            String instruction3 = "Enter: restart";
             int yInstructions = yStart + 45;
 
             int xInstruction1 = (this.getWidth() - g2.getFontMetrics().stringWidth(instruction1)) / 2;

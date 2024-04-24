@@ -33,7 +33,7 @@ public class DefaultColorThemeTest {
     @Test
     public void testFrameColor() {
         ColorTheme colorTheme = new DefaultColorTheme();
-        assertEquals(new Color(139, 69, 19), colorTheme.getFrameColor());
+        assertEquals(new Color(91, 91, 91), colorTheme.getFrameColor());
     }
 
     @Test

@@ -24,7 +24,7 @@ public class SveiparModel implements ViewableMineSveiparModel, ControllableMineS
     Board board;
     public GameState gameState;
     private List<GridCell<Integer>> flaggedValues;
-    private final int NUM_MINES = 5;
+    private final int NUM_MINES = 10;
     private static final int MINE_VALUE = -1;
     private static final int FLAGGED_VALUE = 10;
     int value;
@@ -139,7 +139,7 @@ public class SveiparModel implements ViewableMineSveiparModel, ControllableMineS
      * Counts the number of surrounding mines for each cell on the board.
      * Updates the value of each non-mine cell with the count of surrounding mines.
      */
-    private void countSurroundingMines() {
+    void countSurroundingMines() {
         for (int i = 0; i < this.board.rows(); i++) {
             for (int j = 0; j < this.board.cols(); j++) {
                 CellPosition pos = new CellPosition(i, j);

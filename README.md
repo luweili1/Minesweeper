@@ -1,9 +1,27 @@
-<img align="right" width=200 src="./guide/pics/tetris-inaction.png">
+Design Choices
+Inspired by the classic Windows '95 Minesweeper, MineSveipar retains the essence of the original game while introducing a fresh, modern interface. The choice to stick to a nostalgic theme helped shape the development process, focusing on simplicity and functionality.
 
-# Tetris
 
-Ferdigimplementert Tetris iht. steg 1 til 8 i semesteroppgave 1.
+Gameplay
+Basic Rules
+Start the Game: Press enter to begin and start the timer.
+Uncover a Cell: Left-click on a cell to reveal what is underneath.
+If you uncover a mine, it's game over!
+Numbers on the cells indicate how many mines are adjacent to that cell.
+Flag a Mine: Use Right-click to place a flag on a cell you suspect contains a mine.
+Winning the Game: To win, uncover all cells that do not contain mines.
 
- ## Copyright
+Technologies Used
+MineSveipar is built using:
+Java: For all back-end logic and game mechanics.
+Swing: For creating the graphical user interface.
 
- Tetris er et spill hvor The Tetris Company har alle rettigheter. Du kan derfor *ikke* publisere din versjon av Tetris offentlig når du er ferdig; ditt Tetris-spill er kun for deg selv og dine aller nærmeste, og vi gjenskaper det kun i undervisningsøyemed. Forøvrig ligger det en severdig dokumentar om hvordan Nintendo kuppet rettighetene til Tetris  foran snuten på Atari på [Gaming Historian](https://www.youtube.com/watch?v=_fQtxKmgJC8) sin YouTube-kanal.
+Features
+Graphical User Interface: A clean and responsive GUI that is easy to navigate.
+Custom Graphics: Custom designed elements to enhance the visual experience.
+Timer: A stopwatch to keep track of your game progress.
+
+Thank You
+Thank you for checking out MineSveipar! Dive in and start sveipar those mines!
+
+Video link:
