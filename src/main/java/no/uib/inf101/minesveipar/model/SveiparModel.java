@@ -11,12 +11,20 @@ import no.uib.inf101.grid.GridDimension;
 import no.uib.inf101.minesveipar.controller.ControllableMineSveiparModel;
 import no.uib.inf101.minesveipar.view.ViewableMineSveiparModel;
 
+/**
+ * The `SveiparModel` class represents the model component of the MineSveipar
+ * game.
+ * It implements both the `ViewableMineSveiparModel` and
+ * `ControllableMineSveiparModel` interfaces.
+ * The class is responsible for managing the game board, game state, and game
+ * logic.
+ */
 public class SveiparModel implements ViewableMineSveiparModel, ControllableMineSveiparModel {
 
     Board board;
     public GameState gameState;
     private List<GridCell<Integer>> flaggedValues;
-    private final int NUM_MINES = 15;
+    private final int NUM_MINES = 5;
     private static final int MINE_VALUE = -1;
     private static final int FLAGGED_VALUE = 10;
     int value;
@@ -41,21 +49,32 @@ public class SveiparModel implements ViewableMineSveiparModel, ControllableMineS
         return gameState;
     }
 
+    /**
+     * Uncover a cell at the specified position and update the game state
+     * accordingly.
+     * 
+     * @param pos the position of the cell to uncover
+     * @return the value of the uncovered cell, or null if the cell is already
+     *         uncovered
+     */
     public Integer uncoverCell(CellPosition pos) {
+        if (isFlagged(pos)) {
+            return null;
+        }
+
         if (!isHidden(pos)) {
             return null;
         }
 
-        int value = this.board.get(pos).getValue();
+        this.value = this.board.get(pos).getValue();
 
         if (value == MINE_VALUE) {
             gameState = GameState.GAME_OVER;
             uncoverMines();
         } else {
-
-            setUncovered(pos, false);
-
-            if (value == 0) {
+            int adjacentMineCount = countAdjacentMines(pos);
+            this.board.set(pos, new MineCell(adjacentMineCount, false));
+            if (adjacentMineCount == 0) {
                 uncoverSurroundingCells(pos);
             }
         }
@@ -63,6 +82,16 @@ public class SveiparModel implements ViewableMineSveiparModel, ControllableMineS
         return value;
     }
 
+    /**
+     * Flags a mine at the specified position.
+     * If the cell at the given position is hidden and not already flagged, and
+     * there are remaining mines,
+     * the cell is flagged and added to the list of flagged cells.
+     * If the cell at the given position is already flagged, it is unflagged and
+     * removed from the list of flagged cells.
+     *
+     * @param pos the position of the cell to flag/unflag
+     */
     public void flagMine(CellPosition pos) {
         if (isHidden(pos)) {
             if (!isFlagged(pos)) {
@@ -93,6 +122,12 @@ public class SveiparModel implements ViewableMineSveiparModel, ControllableMineS
         }
     }
 
+    /**
+     * Checks if a mine can be placed at the given cell position.
+     *
+     * @param pos the cell position to check
+     * @return {@code true} if a mine can be placed, {@code false} otherwise
+     */
     private Boolean canPlaceMines(CellPosition pos) {
         if (this.board.get(pos).getValue() == MINE_VALUE) {
             return false;
@@ -100,6 +135,10 @@ public class SveiparModel implements ViewableMineSveiparModel, ControllableMineS
         return true;
     }
 
+    /**
+     * Counts the number of surrounding mines for each cell on the board.
+     * Updates the value of each non-mine cell with the count of surrounding mines.
+     */
     private void countSurroundingMines() {
         for (int i = 0; i < this.board.rows(); i++) {
             for (int j = 0; j < this.board.cols(); j++) {
@@ -133,6 +172,12 @@ public class SveiparModel implements ViewableMineSveiparModel, ControllableMineS
         }
     }
 
+    /**
+     * Checks if the given cell position is valid and empty.
+     *
+     * @param pos the cell position to check
+     * @return true if the cell position is valid and empty, false otherwise
+     */
     private boolean isValidAndEmptyCell(CellPosition pos) {
         return this.board.positionIsOnGrid(pos) && this.board.get(pos).getValue() != -1;
     }
@@ -165,12 +210,26 @@ public class SveiparModel implements ViewableMineSveiparModel, ControllableMineS
         }
     }
 
+    /**
+     * Sets the uncovered state of a cell at the specified position.
+     * If the cell is not hidden, it updates the cell on the board to be a MineCell
+     * with the same value and false hidden state.
+     *
+     * @param pos    the position of the cell to set the uncovered state for
+     * @param hidden the hidden state of the cell
+     */
     private void setUncovered(CellPosition pos, boolean hidden) {
         if (hidden == false) {
             this.board.set(pos, new MineCell(this.board.get(pos).getValue(), false));
         }
     }
 
+    /**
+     * Checks if the cell at the specified position is hidden.
+     *
+     * @param pos the position of the cell to check
+     * @return true if the cell is hidden, false otherwise
+     */
     boolean isHidden(CellPosition pos) {
         boolean value = this.board.get(pos).getHidden();
         if (value == true) {
@@ -207,6 +266,12 @@ public class SveiparModel implements ViewableMineSveiparModel, ControllableMineS
         return counter;
     }
 
+    /**
+     * Uncover all mines on the game board.
+     * This method iterates through each cell on the board and checks if it contains
+     * a mine.
+     * If a cell contains a mine, it sets the cell as uncovered.
+     */
     private void uncoverMines() {
         for (int i = 0; i < this.board.rows(); i++) {
             for (int j = 0; j < this.board.cols(); j++) {
@@ -231,24 +296,12 @@ public class SveiparModel implements ViewableMineSveiparModel, ControllableMineS
         }
     }
 
-    @Override
-    public Iterable<GridCell<MineCell>> getTilesonBoard() {
-        return this.board;
-    }
-
-    private void updateCellValues() {
-        for (int row = 0; row < this.board.rows(); row++) {
-            for (int col = 0; col < this.board.cols(); col++) {
-                CellPosition pos = new CellPosition(row, col);
-                if (this.board.get(pos).getValue() == 0) {
-                    continue;
-                }
-                int mineCount = countAdjacentMines(pos);
-                this.board.set(pos, new MineCell(mineCount, true));
-            }
-        }
-    }
-
+    /**
+     * Counts the number of adjacent cells that contain mines.
+     *
+     * @param pos The position of the cell to check for adjacent mines.
+     * @return The number of adjacent cells that contain mines.
+     */
     private int countAdjacentMines(CellPosition pos) {
         int mineCount = 0;
 
@@ -267,18 +320,80 @@ public class SveiparModel implements ViewableMineSveiparModel, ControllableMineS
         return mineCount;
     }
 
+    /**
+     * Updates the values of opened cells on the board.
+     * For each opened cell, the adjacent mine count is calculated and set as the
+     * value of the cell.
+     * If the cell does not contain a mine, it is marked as not a mine.
+     */
+    public void updateOpenedCellValues() {
+        for (int i = 0; i < this.board.rows(); i++) {
+            for (int j = 0; j < this.board.cols(); j++) {
+                CellPosition pos = new CellPosition(i, j);
+                if (!isHidden(pos)) {
+                    int adjacentMineCount = countAdjacentMines(pos);
+                    this.board.set(pos, new MineCell(adjacentMineCount, false));
+                }
+            }
+        }
+    }
+
+    /**
+     * Checks if the given cell position is valid and contains a mine.
+     *
+     * @param pos the cell position to check
+     * @return true if the position is valid and contains a mine, false otherwise
+     */
     private boolean isValidAndContainsMine(CellPosition pos) {
         return this.board.positionIsOnGrid(pos) && this.board.get(pos).getValue() == MINE_VALUE;
     }
 
+    /**
+     * Returns the value of the cell at the specified position.
+     *
+     * @param pos the position of the cell
+     * @return the value of the cell
+     */
+    @Override
+    public int value(CellPosition pos) {
+        return this.board.get(pos).getValue();
+    }
+
+    /**
+     * Sets the game state of the SveiparModel.
+     * 
+     * @param gameState the new game state to be set
+     */
     @Override
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
+    }
+
+    /**
+     * Resets the game by clearing the board, flagged values, and setting the game
+     * state to active.
+     * It also counts the surrounding mines and places new mines on the board.
+     */
+    public void resetGame() {
+        this.board.clear();
+        this.flaggedValues.clear();
+        this.gameState = GameState.ACTIVE_GAME;
+        countSurroundingMines();
+        placingMines();
 
     }
 
     @Override
-    public int value() {
-        return value;
+    public Iterable<GridCell<MineCell>> getTilesOnBoard() {
+        List<GridCell<MineCell>> result = new ArrayList<>();
+
+        for (int i = 0; i < this.board.rows(); i++) {
+            for (int j = 0; j < this.board.cols(); j++) {
+                GridCell<MineCell> cell = new GridCell<MineCell>(new CellPosition(i, j),
+                        this.board.get(new CellPosition(i, j)));
+                result.add(cell);
+            }
+        }
+        return result;
     }
 }

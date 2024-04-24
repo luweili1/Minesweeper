@@ -8,6 +8,10 @@ import no.uib.inf101.minesveipar.model.Board;
 import no.uib.inf101.minesveipar.model.SveiparModel;
 import no.uib.inf101.minesveipar.view.MineSveiparView;
 
+/**
+ * The main class for the MineSveipar game.
+ * This class initializes the game components and starts the game.
+ */
 public class MineSveiparMain {
 
   public static void main(String[] args) {
