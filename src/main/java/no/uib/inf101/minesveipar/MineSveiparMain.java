@@ -15,7 +15,7 @@ import no.uib.inf101.minesveipar.view.MineSveiparView;
 public class MineSveiparMain {
 
   public static void main(String[] args) {
-    Board board = new Board(9, 9);
+    Board board = new Board(8, 8);
     SveiparModel model = new SveiparModel(board);
     MineSveiparView view = new MineSveiparView(model);
 

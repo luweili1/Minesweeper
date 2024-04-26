@@ -23,8 +23,8 @@ public class SveiparModel implements ViewableMineSveiparModel, ControllableMineS
 
     Board board;
     public GameState gameState;
-    private List<GridCell<Integer>> flaggedValues;
-    private final int NUM_MINES = 10;
+    public List<GridCell<Integer>> flaggedValues;
+    private final int NUM_MINES = 15;
     private static final int MINE_VALUE = -1;
     private static final int FLAGGED_VALUE = 10;
     int value;
@@ -58,6 +58,7 @@ public class SveiparModel implements ViewableMineSveiparModel, ControllableMineS
      *         uncovered
      */
     public Integer uncoverCell(CellPosition pos) {
+
         if (isFlagged(pos)) {
             return null;
         }
@@ -302,7 +303,7 @@ public class SveiparModel implements ViewableMineSveiparModel, ControllableMineS
      * @param pos The position of the cell to check for adjacent mines.
      * @return The number of adjacent cells that contain mines.
      */
-    private int countAdjacentMines(CellPosition pos) {
+    public int countAdjacentMines(CellPosition pos) {
         int mineCount = 0;
 
         for (int dx = -1; dx <= 1; dx++) {
