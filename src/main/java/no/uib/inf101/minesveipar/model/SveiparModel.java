@@ -26,8 +26,8 @@ public class SveiparModel implements ViewableMineSveiparModel, ControllableMineS
     public List<GridCell<Integer>> flaggedValues;
     private final int NUM_MINES = 8;
     private static final int MINE_VALUE = -1;
-    private static final int WRONG_FLAG = 10;
-    private static final int CORRECT_FLAG = -10;
+    public static final int WRONG_FLAG = 10;
+    public static final int CORRECT_FLAG = -10;
     int value;
 
     public SveiparModel(Board board) {
@@ -285,6 +285,12 @@ public class SveiparModel implements ViewableMineSveiparModel, ControllableMineS
         }
     }
 
+    /**
+     * Checks if the cell at the given position is a mine.
+     *
+     * @param pos the position of the cell to check
+     * @return true if the cell is a mine, false otherwise
+     */
     private boolean isMine(CellPosition pos) {
         return this.board.get(pos).getValue() == MINE_VALUE || this.board.get(pos).getValue() == WRONG_FLAG;
     }
