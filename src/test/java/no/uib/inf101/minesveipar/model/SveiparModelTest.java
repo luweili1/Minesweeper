@@ -19,6 +19,25 @@ public class SveiparModelTest {
     }
 
     @Test
+    public void testFlaggingAndUnflagging() {
+        SveiparModel model = new SveiparModel(new Board(10, 10));
+        CellPosition position = new CellPosition(5, 5);
+        model.flagMine(position);
+        assertTrue(model.isFlagged(position));
+        model.flagMine(position);
+        assertFalse(model.isFlagged(position));
+    }
+
+    @Test
+    public void testFlagLimit() {
+        SveiparModel model = new SveiparModel(new Board(10, 10));
+        for (int i = 0; i < model.NUM_MINES; i++) {
+            model.flagMine(new CellPosition(i, 0));
+        }
+        assertEquals(0, model.mineCounter());
+    }
+
+    @Test
     public void testCanPlaceMines() {
         int[][] mockBoard = {
                 { 0, 1, 2 },
@@ -45,6 +64,14 @@ public class SveiparModelTest {
             int cellValue = board[pos.row()][pos.col()];
             return cellValue != -1;
         }
+    }
+
+    @Test
+    public void testRevealMine() {
+        SveiparModel model = new SveiparModel(new Board(10, 10));
+        model.board.set(new CellPosition(3, 3), new MineCell(model.MINE_VALUE, true));
+        model.uncoverCell(new CellPosition(3, 3));
+        assertEquals(GameState.GAME_OVER, model.getGameState());
     }
 
     @Test

@@ -24,8 +24,8 @@ public class SveiparModel implements ViewableMineSveiparModel, ControllableMineS
     Board board;
     public GameState gameState;
     public List<GridCell<Integer>> flaggedValues;
-    private final int NUM_MINES = 8;
-    private static final int MINE_VALUE = -1;
+    public final int NUM_MINES = 8;
+    public static final int MINE_VALUE = -1;
     public static final int WRONG_FLAG = 10;
     public static final int CORRECT_FLAG = -10;
     int value;
