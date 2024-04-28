@@ -2,11 +2,9 @@ package no.uib.inf101.minesveipar.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
 import no.uib.inf101.grid.CellPosition;
 
 import org.junit.jupiter.api.Test;
-
 
 public class SveiparModelTest {
 
@@ -18,8 +16,6 @@ public class SveiparModelTest {
 
         model.resetGame();
 
-        System.out.println("Board after resetting the game:");
-        System.out.println(model.board.prettyString());
     }
 
     @Test

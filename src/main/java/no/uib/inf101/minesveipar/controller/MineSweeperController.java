@@ -34,6 +34,11 @@ public class MineSweeperController implements java.awt.event.MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
         if (model.getGameState() != GameState.ACTIVE_GAME) {
             return;
         }
@@ -53,11 +58,6 @@ public class MineSweeperController implements java.awt.event.MouseListener {
             this.view.repaint();
             this.view.revalidate();
         }
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-
     }
 
     @Override

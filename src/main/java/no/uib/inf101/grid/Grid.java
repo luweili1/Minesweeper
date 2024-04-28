@@ -110,10 +110,8 @@ public class Grid<E> implements IGrid<E> {
     @Override
     public E get(CellPosition pos) {
         if (positionIsOnGrid(pos)) {
-            System.out.println("Accessing cell at " + pos + " with value: " + this.grid.get(pos.row()).get(pos.col()));
             return this.grid.get(pos.row()).get(pos.col());
         } else {
-            System.out.println("Attempted to access out of bounds cell at " + pos);
             throw new IndexOutOfBoundsException("Grid access out of bounds at " + pos);
         }
     }

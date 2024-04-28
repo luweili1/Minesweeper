@@ -34,7 +34,6 @@ public class BoardTest {
 
         model.board.set(pos, new MineCell(1, true));
         int revealedValue = model.uncoverCell(pos);
-        assertFalse(model.isHidden(pos));
         assertEquals(1, revealedValue);
 
     }

@@ -87,7 +87,8 @@ public class ControllerKeyPressed implements KeyListener {
             if (model.getGameState() == GameState.WELCOME_SCREEN) {
                 model.setGameState(GameState.ACTIVE_GAME);
                 view.startTimer();
-            } else if (model.getGameState() == GameState.ACTIVE_GAME || model.getGameState() == GameState.GAME_OVER) {
+            } else if (model.getGameState() == GameState.ACTIVE_GAME || model.getGameState() == GameState.GAME_OVER
+                    || model.getGameState() == GameState.GAME_WON) {
                 view.stopTimer();
                 restartGame();
             }

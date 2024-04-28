@@ -58,6 +58,7 @@ public class MineSveiparView extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        repaint();
         Graphics2D g2 = (Graphics2D) g;
         drawGame(g2);
         drawTime(g2);
@@ -224,35 +225,32 @@ public class MineSveiparView extends JPanel {
     }
 
     /**
-     * Draws the face image on the game view based on the current game state.
-     * The face image is either a smiley or a sad face.
+     * Draws the face image on the graphics context.
+     * The image displayed depends on the current game state.
+     * If the game is won, a smiley face image is displayed.
+     * If the game is over, a sad face image is displayed.
+     * If the game is still in progress, a smiley face image is displayed.
      *
-     * @param g2d the Graphics2D object used for drawing
+     * @param g2d the Graphics2D object to draw on
      */
     private void drawFace(Graphics2D g2d) {
-        double x;
-        double y;
+        double x = 190;
+        double y = -10;
         String imagePath;
 
-        if (model.getGameState() == GameState.ACTIVE_GAME) {
-            x = 190;
-            y = -10;
+        if (model.getGameState() == GameState.GAME_WON) {
             imagePath = "/Smiley.png";
-
-        } else if (model.getGameState() == GameState.WELCOME_SCREEN) {
-            x = 190;
-            y = -10;
-            imagePath = "/Smiley.png";
-
-        } else {
+        } else if (model.getGameState() == GameState.GAME_OVER) {
             x = 200;
             y = -2.3;
             imagePath = "/Sad.png";
+        } else {
+            imagePath = "/Smiley.png";
         }
 
         BufferedImage image = Inf101Graphics.loadImageFromResources(imagePath);
-        Inf101Graphics.drawImage(g2d, image, x, y, (imagePath.equals("/Smiley.png") ? 0.14 : 0.23));
-
+        double scale = imagePath.equals("/Smiley.png") ? 0.14 : 0.23;
+        Inf101Graphics.drawImage(g2d, image, x, y, scale);
     }
 
     /**

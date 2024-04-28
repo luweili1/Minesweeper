@@ -39,11 +39,6 @@ public interface ControllableMineSveiparModel {
      */
     GridDimension getDimension();
 
-    /**
-     * Flags the mine at the specified position.
-     *
-     * @param pos the position of the mine to flag
-     */
     void flagMine(CellPosition pos);
 
     /**
