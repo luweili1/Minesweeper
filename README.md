@@ -21,3 +21,4 @@ Thank you for checking out MineSveipar! Dive in and start sveipar those mines!
 
 Want to see that the game is played?
 https://youtu.be/0rjmrRyhfLc
+# Minesweeper
