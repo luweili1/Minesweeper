@@ -9,16 +9,6 @@ import org.junit.jupiter.api.Test;
 public class SveiparModelTest {
 
     @Test
-    public static void main(String[] args) {
-        Board board = new Board(5, 5);
-
-        SveiparModel model = new SveiparModel(board);
-
-        model.resetGame();
-
-    }
-
-    @Test
     public void testFlaggingAndUnflagging() {
         SveiparModel model = new SveiparModel(new Board(10, 10));
         CellPosition position = new CellPosition(5, 5);
